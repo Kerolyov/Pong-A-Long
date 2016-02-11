@@ -3,7 +3,7 @@
 
 SDL_Window* g_pWindow = nullptr;
 
-int main(int argc, char *argv[])
+bool Init()
 {
 	// Initialise SDL, report error if it fails
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 		std::string err_msg = "SDL Initialisation Failed!\n";
 		err_msg += SDL_GetError();
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error!", err_msg.c_str(), nullptr);
-		return -1;
+		return false;
 	}
 
 	// Create a window
@@ -25,17 +25,31 @@ int main(int argc, char *argv[])
 	if (g_pWindow == nullptr)
 	{
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error!", "Window Creation Failed", nullptr);
-		return -1;
+		return false;
 	}
 
-	// Wait for 3 seconds
-	SDL_Delay(3000);
+	return true;
+}
 
+void Cleanup()
+{
 	// Destroy the window
 	SDL_DestroyWindow(g_pWindow);
 	g_pWindow = nullptr;
 
 	// Shutdown SDL
 	SDL_Quit();
+}
+
+int main(int argc, char *argv[])
+{
+	if (!Init())
+		return -1;
+
+	// Wait for 3 seconds
+	SDL_Delay(3000);
+
+	Cleanup();
+
 	return 0;
 }
