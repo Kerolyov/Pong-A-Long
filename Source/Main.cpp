@@ -1,5 +1,6 @@
 #include <string>
 #include <SDL.h>
+#include <SDL_image.h>
 
 // Window
 SDL_Window* g_pWindow = nullptr;
@@ -10,6 +11,11 @@ int g_Height = 0;
 //Renderer
 SDL_Renderer* g_pRenderer = nullptr;
 SDL_Color g_BackgroundColor = SDL_Color{ 0x00, 0x00, 0x00, 0xFF };
+
+//Texture
+SDL_Texture*  g_pTexture = nullptr;
+int g_TextureWidth = 0;
+int g_TextureHeight = 0;
 
 void WindowRelease()
 {
@@ -64,6 +70,14 @@ bool CreateRenderer(int index, Uint32 flags)
 	return true;
 }
 
+void TextureRelease()
+{
+	SDL_DestroyTexture(g_pTexture);
+	g_pTexture = nullptr;
+	g_Width = 0;
+	g_Height = 0;
+}
+
 void Err2MsgBox(std::string err_msg)
 {
 	err_msg += SDL_GetError();
@@ -76,6 +90,16 @@ bool Init()
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
 		Err2MsgBox("SDL Initialisation Failed!\n");
+		return false;
+	}
+
+	//Initialize PNG/JPG loading 
+	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
+	if (!(IMG_Init(imgFlags) & imgFlags))
+	{
+		std::string err_msg = "SDL_image could not initialize!\n";
+		err_msg += IMG_GetError();
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error!", err_msg.c_str(), nullptr);
 		return false;
 	}
 
@@ -101,17 +125,50 @@ bool Init()
 
 void Cleanup()
 {
+	TextureRelease();
 	RendererRelease();
 	WindowRelease();
 
 	// Shutdown SDL
+	IMG_Quit();
 	SDL_Quit();
+}
+
+void LoadTestImage(std::string filename)
+{
+	SDL_Surface* pSurface = nullptr;
+	pSurface = IMG_Load(filename.c_str());
+
+	if (!pSurface)
+	{
+		Err2MsgBox("Could not load texture from file.\n");
+		return;
+	}
+	else
+	{
+		TextureRelease();
+		g_pTexture = SDL_CreateTextureFromSurface(g_pRenderer, pSurface);
+		SDL_FreeSurface(pSurface);
+
+		if (g_pTexture != nullptr)
+		{
+			g_Width = pSurface->w;
+			g_Height = pSurface->h;
+		}
+	}
 }
 
 void MainLoop()
 {
+	// Load the image
+	LoadTestImage("../Gfx/HelloWorld.png");
+
 	// Clear the window
 	RendererClearBackBuffer();
+
+	if (g_pRenderer && g_pTexture)
+		SDL_RenderCopy(g_pRenderer, g_pTexture, nullptr, nullptr);
+
 	SDL_RenderPresent(g_pRenderer);
 
 	// Wait for 3 seconds
