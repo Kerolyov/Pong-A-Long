@@ -2,6 +2,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+bool g_Running = false;
+
 // Window
 SDL_Window* g_pWindow = nullptr;
 int g_WindowID = 0;
@@ -158,21 +160,44 @@ void LoadTestImage(std::string filename)
 	}
 }
 
-void MainLoop()
+void HandleEvents()
 {
-	// Load the image
-	LoadTestImage("../Gfx/HelloWorld.png");
+	SDL_Event Event;
 
-	// Clear the window
-	RendererClearBackBuffer();
+	while (SDL_PollEvent(&Event))
+	{
+		if (Event.type == SDL_QUIT)
+			g_Running = false;
+	}
+}
 
+void Render()
+{
 	if (g_pRenderer && g_pTexture)
 		SDL_RenderCopy(g_pRenderer, g_pTexture, nullptr, nullptr);
 
 	SDL_RenderPresent(g_pRenderer);
 
-	// Wait for 3 seconds
-	SDL_Delay(3000);
+	// Clear the backbuffer ready for next frame
+	RendererClearBackBuffer();
+}
+
+void MainLoop()
+{
+	// Load the image
+	LoadTestImage("../Gfx/HelloWorld.png");
+
+	g_Running = true;
+
+	// Clear the window
+	RendererClearBackBuffer();
+
+	while (g_Running)
+	{
+		HandleEvents();
+
+		Render();
+	}
 }
 
 int main(int argc, char *argv[])
