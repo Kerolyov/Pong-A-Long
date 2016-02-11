@@ -7,7 +7,7 @@ Renderer::Renderer()
 
 Renderer::~Renderer()
 {
-
+	Release();
 }
 
 void Renderer::Release()
