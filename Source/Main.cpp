@@ -1,10 +1,15 @@
 #include <string>
 #include <SDL.h>
 
+// Window
 SDL_Window* g_pWindow = nullptr;
 int g_WindowID = 0;
 int g_Width = 0;
 int g_Height = 0;
+
+//Renderer
+SDL_Renderer* g_pRenderer = nullptr;
+SDL_Color g_BackgroundColor = SDL_Color{ 0x00, 0x00, 0x00, 0xFF };
 
 void WindowRelease()
 {
@@ -31,14 +36,46 @@ bool WindowCreate(std::string title, int x, int y, int w, int h, Uint32 flags)
 	return true;
 }
 
+void RendererRelease()
+{
+	SDL_DestroyRenderer(g_pRenderer);
+	g_pRenderer = nullptr;
+}
+
+void RendererClearBackBuffer()
+{
+	SDL_SetRenderDrawColor(g_pRenderer, g_BackgroundColor.r, g_BackgroundColor.g, g_BackgroundColor.b, g_BackgroundColor.a);
+	SDL_RenderClear(g_pRenderer);
+}
+
+bool CreateRenderer(int index, Uint32 flags)
+{
+	if (!g_pWindow)
+		return false;
+
+	RendererRelease();
+
+	g_pRenderer = SDL_CreateRenderer(g_pWindow, index, flags);
+	if (g_pRenderer == nullptr)
+		return false;
+
+	RendererClearBackBuffer();
+
+	return true;
+}
+
+void Err2MsgBox(std::string err_msg)
+{
+	err_msg += SDL_GetError();
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error!", err_msg.c_str(), nullptr);
+}
+
 bool Init()
 {
 	// Initialise SDL, report error if it fails
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
-		std::string err_msg = "SDL Initialisation Failed!\n";
-		err_msg += SDL_GetError();
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error!", err_msg.c_str(), nullptr);
+		Err2MsgBox("SDL Initialisation Failed!\n");
 		return false;
 	}
 
@@ -49,9 +86,13 @@ bool Init()
 		640, 480,
 		SDL_WINDOW_SHOWN))
 	{
-		std::string err_msg = "Window Creation Failed.\n";
-		err_msg += SDL_GetError();
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error!", err_msg.c_str(), nullptr);
+		Err2MsgBox("Window Creation Failed.\n");
+		return false;
+	}
+
+	if (!CreateRenderer(-1, SDL_RENDERER_ACCELERATED))
+	{
+		Err2MsgBox("Renderer Creation Failed.\n");
 		return false;
 	}
 
@@ -60,6 +101,7 @@ bool Init()
 
 void Cleanup()
 {
+	RendererRelease();
 	WindowRelease();
 
 	// Shutdown SDL
@@ -68,6 +110,10 @@ void Cleanup()
 
 void MainLoop()
 {
+	// Clear the window
+	RendererClearBackBuffer();
+	SDL_RenderPresent(g_pRenderer);
+
 	// Wait for 3 seconds
 	SDL_Delay(3000);
 }
