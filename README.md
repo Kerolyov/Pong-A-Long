@@ -7,7 +7,7 @@ The solution provided is for Microsoft Visual Studio 2015 Community on Windows. 
 
 # Licence
 
-This project is sahred under the zlib licence
+This project is shared under the zlib licence
 
 Copyright (c) 2015 Jon Moore
 
