@@ -12,11 +12,14 @@ GameApp::GameApp()
 
 GameApp::~GameApp()
 {
-
+	Cleanup();
 }
 
 void GameApp::Cleanup()
 {
+	m_Texture.Release();
+	m_Window.Release();
+
 	// Shutdown SDL
 	IMG_Quit();
 	SDL_Quit();
@@ -58,6 +61,9 @@ bool GameApp::Init()
 		return false;
 	}
 
+	// Load the image
+	m_Texture.CreateFromFile(m_Window.GetRenderer(), "../Gfx/HelloWorld.png");
+
 	return true;
 }
 
@@ -79,9 +85,6 @@ void GameApp::Render(Renderer& renderer)
 
 void GameApp::MainLoop()
 {
-	// Load the image
-	m_Texture.CreateFromFile(m_Window.GetRenderer(), "../Gfx/HelloWorld.png");
-
 	m_Running = true;
 
 	// Clear the window
@@ -93,7 +96,7 @@ void GameApp::MainLoop()
 
 		if (m_Window.CanRender())
 		{
-			// Get renderer
+			// Get renderer and render frame then present
 			Renderer& renderer = m_Window.GetRenderer();
 			Render(renderer);
 			m_Window.Present();
