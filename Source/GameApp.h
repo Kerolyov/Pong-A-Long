@@ -4,6 +4,7 @@
 
 #include "Window.h"
 #include "Texture.h"
+#include "Font_TTF.h"
 
 class GameApp
 {
@@ -27,7 +28,9 @@ private:
 	bool	m_Running = false;
 
 	Window	m_Window;
-	Texture m_Texture;
+	Texture m_textTexture;
+	Texture m_textTexture_fast;
+	FontTTF m_Font;
 };
 
 #endif // GameApp_h__
