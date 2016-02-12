@@ -14,6 +14,8 @@ Window::~Window()
 
 void Window::Release()
 {
+	m_Renderer.Release();
+
 	// Destroy the window
 	SDL_DestroyWindow(m_pWindow);
 	m_pWindow = nullptr;
