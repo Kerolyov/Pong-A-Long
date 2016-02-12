@@ -121,6 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Source\GameApp.cpp" />
     <ClCompile Include="..\Source\Main.cpp" />
     <ClCompile Include="..\Source\Renderer.cpp" />
     <ClCompile Include="..\Source\SDLErrorReport.cpp" />
@@ -128,6 +129,7 @@
     <ClCompile Include="..\Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Source\GameApp.h" />
     <ClInclude Include="..\Source\Renderer.h" />
     <ClInclude Include="..\Source\SDLErrorReport.h" />
     <ClInclude Include="..\Source\Texture.h" />
