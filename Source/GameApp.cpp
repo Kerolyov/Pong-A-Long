@@ -20,8 +20,8 @@ void GameApp::Cleanup()
 {
 	// App specific cleanup
 	m_Font.Release();
-	m_textTexture.Release();
-	m_textTexture_fast.Release();
+	m_KeyPressedText.Release();
+	m_NoKeyPressedText.Release();
 
 	// Generic cleanup
 	m_Window.Release();
@@ -81,8 +81,8 @@ bool GameApp::Init()
 
 	if (m_Font.LoadFont("C:\\Windows\\Fonts\\ARIAL.TTF", 36, SDL_Color{ 0xFF, 0xFF, 0xFF, 0xFF }))
 	{
-		m_textTexture.CreateFromText(m_Window.GetRenderer(), "Quality render text", m_Font);
-		m_textTexture_fast.CreateFromText_Fast(m_Window.GetRenderer(), "Fast render text", m_Font);
+		m_KeyPressedText.CreateFromText(m_Window.GetRenderer(), "Key pressed", m_Font);
+		m_NoKeyPressedText.CreateFromText(m_Window.GetRenderer(), "No key pressed", m_Font);
 	}
 
 	// Load the image
@@ -97,15 +97,19 @@ void GameApp::HandleEvents()
 
 	while (SDL_PollEvent(&Event))
 	{
-		if (Event.type == SDL_QUIT)
-			m_Running = false;
+		if (Event.type == SDL_WINDOWEVENT && Event.window.windowID == m_Window.GetID())
+			m_Window.OnEvent(Event);
+		else
+			OnEvent(Event);
 	}
 }
 
 void GameApp::Render(Renderer& renderer)
 {
-	m_textTexture.Render(renderer, 0, 0);
-	m_textTexture_fast.Render(renderer, 0, m_textTexture.GetHeight());
+	if (m_KeyDown == SDLK_UNKNOWN)
+		m_NoKeyPressedText.Render(renderer,0,0);
+	else
+		m_KeyPressedText.Render(renderer, 0, 0);
 }
 
 void GameApp::MainLoop()
@@ -139,5 +143,21 @@ int GameApp::Execute()
 
 	Cleanup();
 
+	SDLK_0;
 	return 0;
+}
+
+bool GameApp::OnKeyDown(SDL_Scancode scan, SDL_Keycode key)
+{
+	m_KeyDown = key;
+
+	return true;
+}
+
+bool GameApp::OnKeyUp(SDL_Scancode scan, SDL_Keycode key)
+{
+	if (m_KeyDown == key)
+		m_KeyDown = SDLK_UNKNOWN;
+
+	return true;
 }
