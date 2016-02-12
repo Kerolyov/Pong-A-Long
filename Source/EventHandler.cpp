@@ -56,10 +56,10 @@ bool EventHandler::OnEvent(SDL_Event& Event)
 				eventHandled = OnMouseBlur(windowID);
 				break;
 			case SDL_WINDOWEVENT_FOCUS_GAINED:
-				eventHandled = OnInputFocus(windowID);
+				eventHandled = OnKeyFocus(windowID);
 				break;
 			case SDL_WINDOWEVENT_FOCUS_LOST:
-				eventHandled = OnInputBlur(windowID);
+				eventHandled = OnKeyBlur(windowID);
 				break;
 			case SDL_WINDOWEVENT_CLOSE:
 				eventHandled = OnClose(windowID);

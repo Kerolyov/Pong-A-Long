@@ -34,9 +34,9 @@ public:
 
 	virtual bool OnMouseBlur(int windowID)									{ return false; }
 
-	virtual bool OnInputFocus(int windowID)									{ return false; }
+	virtual bool OnKeyFocus(int windowID)									{ return false; }
 
-	virtual bool OnInputBlur(int windowID)									{ return false; }
+	virtual bool OnKeyBlur(int windowID)									{ return false; }
 
 	virtual bool OnClose(int windowID)										{ return false; }
 

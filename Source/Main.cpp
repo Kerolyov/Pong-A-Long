@@ -2,6 +2,6 @@
 
 int main(int argc, char *argv[])
 {
-	GameApp app;
+	PongApp app;
 	return app.Execute();
 }
