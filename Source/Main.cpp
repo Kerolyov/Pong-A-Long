@@ -24,7 +24,9 @@ int main(int argc, char *argv[])
 	// Report error if window not created
 	if (g_pWindow == nullptr)
 	{
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error!", "Window Creation Failed", nullptr);
+		std::string err_msg = "Window Creation Failed!\n";
+		err_msg += SDL_GetError();
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error!", err_msg.c_str(), nullptr);
 		return -1;
 	}
 
