@@ -150,13 +150,13 @@ void LoadTestImage(std::string filename)
 	{
 		TextureRelease();
 		g_pTexture = SDL_CreateTextureFromSurface(g_pRenderer, pSurface);
-		SDL_FreeSurface(pSurface);
-
+		
 		if (g_pTexture != nullptr)
 		{
 			g_Width = pSurface->w;
 			g_Height = pSurface->h;
 		}
+		SDL_FreeSurface(pSurface);
 	}
 }
 
