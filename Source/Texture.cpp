@@ -35,22 +35,29 @@ bool Texture::CreateFromFile(Renderer& renderer, std::string filename)
 
 	if (!pSurface)
 	{
+		// Failed to load from file
 		Error2MsgBox("Could not load texture from file.\n");
 		return false;
 	}
 	else
 	{
+		// Loaded ok, so convert to texture
 		Release();
 		m_pTexture = SDL_CreateTextureFromSurface(renderer.GetRenderPtr(), pSurface);
-		SDL_FreeSurface(pSurface);
 
 		if (m_pTexture != nullptr)
 		{
+			// Success!  So save the Texture dimensions in pixels then clear the surface used for loading
 			m_Width = pSurface->w;
 			m_Height = pSurface->h;
+
+			SDL_FreeSurface(pSurface);
 		}
 		else
 		{
+			// Failure! Clear surface and report error
+			SDL_FreeSurface(pSurface);
+
 			Error2MsgBox("Could not create texture loaded from file.\n");
 			return false;
 		}
