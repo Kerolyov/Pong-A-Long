@@ -72,7 +72,7 @@ bool GameApp::Init()
 		return false;
 	}
 
-
+	// Creates a renderer and clears the window
 	if (!m_Window.CreateRenderer())
 	{
 		Error2MsgBox("Renderer Creation Failed.\n");
@@ -112,19 +112,22 @@ void GameApp::MainLoop()
 {
 	m_Running = true;
 
-	// Clear the window
-	m_Window.ClearWindow();
-
+	// Application will indicate quit by setting m_Running to false
+	// until then we loop thro event handling and rendering each frame
 	while (m_Running)
 	{
 		HandleEvents();
 
+		// If we have valid window & renderer then render the frame
 		if (m_Window.CanRender())
 		{
 			// Get renderer and render frame then present
 			Renderer& renderer = m_Window.GetRenderer();
 			Render(renderer);
 			m_Window.Present();
+
+			// Clear the window (via renderer) ready for next frame
+			m_Window.ClearWindow();
 		}
 	}
 }

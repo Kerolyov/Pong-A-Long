@@ -12,6 +12,10 @@ public:
 	GameApp();
 	~GameApp();
 
+	int Execute();
+	
+private:
+
 	void Cleanup();
 
 	bool Init();
@@ -22,9 +26,6 @@ public:
 
 	void MainLoop();
 
-	int Execute();
-	
-private:
 	bool	m_Running = false;
 
 	Window	m_Window;
