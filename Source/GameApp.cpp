@@ -63,7 +63,8 @@ bool GameApp::Init()
 	}
 
 	// Load the image
-	m_Texture.CreateFromFile(m_Window.GetRenderer(), "../Gfx/HelloWorld.png");
+	if (!m_Texture.CreateFromFile(m_Window.GetRenderer(), "../Gfx/HelloWorld.png"))
+		return false;
 
 	return true;
 }
