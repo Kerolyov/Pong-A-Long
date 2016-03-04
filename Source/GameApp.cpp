@@ -86,7 +86,8 @@ bool GameApp::Init()
 	}
 
 	// Load the image
-	//m_Texture.CreateFromFile(m_Window.GetRenderer(), "../Gfx/HelloWorld.png");
+	if (!m_Texture.CreateFromFile(m_Window.GetRenderer(), "../Gfx/HelloWorld.png"))
+		return false;
 
 	return true;
 }
@@ -124,10 +125,8 @@ void GameApp::MainLoop()
 			// Get renderer and render frame then present
 			Renderer& renderer = m_Window.GetRenderer();
 			Render(renderer);
-			m_Window.Present();
 
-			// Clear the window (via renderer) ready for next frame
-			m_Window.ClearWindow();
+			m_Window.Present();
 		}
 	}
 }
