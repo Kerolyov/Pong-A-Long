@@ -18,10 +18,7 @@ GameApp::~GameApp()
 
 void GameApp::Cleanup()
 {
-	// App specific cleanup
-	m_Font.Release();
-	m_textTexture.Release();
-	m_textTexture_fast.Release();
+	AppCleanup();
 
 	// Generic cleanup
 	m_Window.Release();
@@ -79,17 +76,7 @@ bool GameApp::Init()
 		return false;
 	}
 
-	if (m_Font.LoadFont("C:\\Windows\\Fonts\\ARIAL.TTF", 36, SDL_Color{ 0xFF, 0xFF, 0xFF, 0xFF }))
-	{
-		bool success = m_textTexture.CreateFromText(m_Window.GetRenderer(), "Quality render text", m_Font);
-		success = success & m_textTexture_fast.CreateFromText_Fast(m_Window.GetRenderer(), "Fast render text", m_Font);
-
-		if (!success)
-			return false;
-	}
-	else return false;
-
-	return true;
+	return AppInit();
 }
 
 void GameApp::HandleEvents()
@@ -103,12 +90,6 @@ void GameApp::HandleEvents()
 	}
 }
 
-void GameApp::Render(Renderer& renderer)
-{
-	m_textTexture.Render(renderer, 0, 0);
-	m_textTexture_fast.Render(renderer, 0, m_textTexture.GetHeight());
-}
-
 void GameApp::MainLoop()
 {
 	m_Running = true;
@@ -119,15 +100,20 @@ void GameApp::MainLoop()
 	{
 		HandleEvents();
 
-		// If we have valid window & renderer then render the frame
-		if (m_Window.CanRender())
-		{
-			// Get renderer and render frame then present
-			Renderer& renderer = m_Window.GetRenderer();
-			Render(renderer);
+		Render();
+	}
+}
 
-			m_Window.Present();
-		}
+void GameApp::Render()
+{
+	// If we have valid window & renderer then render the frame
+	if (m_Window.CanRender())
+	{
+		// Get renderer and render frame then present
+		Renderer& renderer = m_Window.GetRenderer();
+		AppRender(renderer);
+
+		m_Window.Present();
 	}
 }
 
