@@ -81,13 +81,13 @@ bool GameApp::Init()
 
 	if (m_Font.LoadFont("C:\\Windows\\Fonts\\ARIAL.TTF", 36, SDL_Color{ 0xFF, 0xFF, 0xFF, 0xFF }))
 	{
-		m_textTexture.CreateFromText(m_Window.GetRenderer(), "Quality render text", m_Font);
-		m_textTexture_fast.CreateFromText_Fast(m_Window.GetRenderer(), "Fast render text", m_Font);
-	}
+		bool success = m_textTexture.CreateFromText(m_Window.GetRenderer(), "Quality render text", m_Font);
+		success = success & m_textTexture_fast.CreateFromText_Fast(m_Window.GetRenderer(), "Fast render text", m_Font);
 
-	// Load the image
-	if (!m_Texture.CreateFromFile(m_Window.GetRenderer(), "../Gfx/HelloWorld.png"))
-		return false;
+		if (!success)
+			return false;
+	}
+	else return false;
 
 	return true;
 }
