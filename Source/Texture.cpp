@@ -44,26 +44,16 @@ bool Texture::CreateFromFile(Renderer& renderer, std::string filename)
 
 	if (!pSurface)
 	{
+		// Failed to load from file
 		Error2MsgBox("Could not load texture from file.\n");
 		return false;
 	}
 	else
 	{
-		Release();
-		m_pTexture = SDL_CreateTextureFromSurface(renderer.GetRenderPtr(), pSurface);
-		SDL_FreeSurface(pSurface);
-
-		if (m_pTexture != nullptr)
-		{
-			m_Width = pSurface->w;
-			m_Height = pSurface->h;
-		}
-		else
-		{
-			Error2MsgBox("Could not create texture loaded from file.\n");
-			return false;
-		}
+		// Loaded ok, so convert to texture
+		return CreateFromSurface(pSurface, renderer);
 	}
+
 	return true;
 }
 

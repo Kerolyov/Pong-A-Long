@@ -1,12 +1,16 @@
 #include "Font_TTF.h"
 
 #include <SDL_ttf.h>
+#include <exception>
 
 
 FontTTF::FontTTF(const char* file, int ptsize, SDL_Color textColor)
 {
 	if (file && ptsize)
-		LoadFont(file, ptsize, textColor);
+	{
+		if (!LoadFont(file, ptsize, textColor))
+			throw std::exception("Font load failed in FontTTF constructor");
+	}
 }
 
 FontTTF::~FontTTF()
