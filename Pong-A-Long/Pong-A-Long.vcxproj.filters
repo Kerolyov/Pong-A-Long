@@ -36,11 +36,10 @@
     <ClCompile Include="..\Source\Font_TTF.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="..\Source\EventHandler.cpp">
-=======
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\Source\PongApp.cpp">
->>>>>>> Lesson6
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,11 +62,10 @@
     <ClInclude Include="..\Source\Font_TTF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="..\Source\EventHandler.h">
-=======
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\Source\PongApp.h">
->>>>>>> Lesson6
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
