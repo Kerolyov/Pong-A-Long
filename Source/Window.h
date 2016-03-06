@@ -21,6 +21,8 @@ public:
 	void Present();
 
 	int GetID() { return m_WindowID;  }
+	int GetHeight() { return m_Height; }
+	int GetWidth() { return m_Width; }
 
 	bool CanRender() { return (m_pWindow && m_Renderer.GetRenderPtr() && !m_bMinimized); }
 

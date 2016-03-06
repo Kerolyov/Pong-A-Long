@@ -22,14 +22,17 @@ public:
 
 private:
 	SDL_Keycode m_KeyDown = SDLK_UNKNOWN;
-	Texture m_KeyPressed;
-	Texture m_MouseFocus;
-	Texture m_KeyFocus;
-	Texture m_Shown;
-	Texture m_Maximized;
+// 	Texture m_KeyPressed;
+// 	Texture m_MouseFocus;
+// 	Texture m_KeyFocus;
+// 	Texture m_Shown;
+// 	Texture m_Maximized;
+// 
+// 	Texture m_Yes;
+// 	Texture m_No;
 
-	Texture m_Yes;
-	Texture m_No;
+	Texture m_Ball;
+	Texture m_textInstruct;
 
 	FontTTF m_Font;
 };

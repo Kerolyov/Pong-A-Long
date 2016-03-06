@@ -62,7 +62,7 @@ bool GameApp::Init()
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
 		640, 480,
-		SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE))
+		SDL_WINDOW_SHOWN /*| SDL_WINDOW_RESIZABLE*/))
 	{
 		Error2MsgBox("Window Creation Failed.\n");
 		return false;
