@@ -3,8 +3,9 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include "SDLErrorReport.h"
 
+#include "SDLErrorReport.h"
+#include "TimeKeeper.h"
 
 GameApp::GameApp()
 {
@@ -75,6 +76,8 @@ bool GameApp::Init()
 		return false;
 	}
 
+	TimeKeeper::initialize();
+
 	return AppInit();
 }
 
@@ -95,11 +98,38 @@ void GameApp::MainLoop()
 {
 	m_Running = true;
 
+	double maxFrameTime = 1.0 / m_minFPS;
+	double minFrameTime = 1.0 / m_maxFPS;
+
+	double timeElapsed = 0.0;
+
 	// Application will indicate quit by setting m_Running to false
 	// until then we loop thro event handling and rendering each frame
 	while (m_Running)
 	{
 		HandleEvents();
+
+		// Gets time since last frame
+		TimeKeeper::update();
+		double deltaTime = TimeKeeper::getDeltaTime();
+
+		// Prevents the deltatime going beyond a given value
+		if (deltaTime > maxFrameTime)
+		{
+			deltaTime = maxFrameTime;
+			m_MissedFrames++;
+		}
+
+		timeElapsed += deltaTime;
+
+		// Only update once every 1/100 seconds.
+		// timeElapsed set to zero at end of Mainloop
+		if (timeElapsed >= minFrameTime)
+		{
+			AppUpdate(timeElapsed);
+
+			timeElapsed = 0.0;
+		}
 
 		Render();
 	}

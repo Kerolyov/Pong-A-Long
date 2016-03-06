@@ -17,19 +17,23 @@ public:
 
 	void AppRender(Renderer& renderer);
 
+	void AppUpdate(double dt);
+
 	bool OnKeyDown(SDL_Scancode scan, SDL_Keycode key);
 	bool OnKeyUp(SDL_Scancode scan, SDL_Keycode key);
 
 private:
-	SDL_Keycode m_KeyDown = SDLK_UNKNOWN;
-// 	Texture m_KeyPressed;
-// 	Texture m_MouseFocus;
-// 	Texture m_KeyFocus;
-// 	Texture m_Shown;
-// 	Texture m_Maximized;
-// 
-// 	Texture m_Yes;
-// 	Texture m_No;
+	void ResetBall();
+
+	enum BallDirection { BallUp, BallDn, BallLeft , BallRight, BallStop };
+
+	BallDirection m_Ball_dirn = BallStop;
+
+	double m_ball_XPos = 0.0;
+	double m_ball_YPos = 0.0;
+
+	double m_ball_XVel = 50.;
+	double m_ball_YVel = 50.;
 
 	Texture m_Ball;
 	Texture m_textInstruct;
