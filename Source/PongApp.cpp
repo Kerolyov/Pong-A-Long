@@ -1,5 +1,10 @@
 #include "PongApp.h"
 
+PongApp::PongApp(std::string appname) : GameApp(appname)
+{
+
+}
+
 bool PongApp::AppInit()
 {
 	Renderer& renderer = m_Window.GetRenderer();
@@ -110,4 +115,5 @@ void PongApp::ResetBall()
 	m_ball_XPos = m_Window.GetWidth() / 2 - m_Ball.GetWidth() / 2;
 	m_ball_YPos = m_Window.GetHeight() / 2 - m_Ball.GetHeight() / 2;
 }
+
 

@@ -9,7 +9,7 @@
 class PongApp : public GameApp
 {
 public:
-	PongApp() {}
+	PongApp(std::string appname);
 	virtual ~PongApp(){}
 
 	bool AppInit();

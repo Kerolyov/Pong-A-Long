@@ -8,7 +8,7 @@
 class GameApp : public EventHandler
 {
 public:
-	GameApp();
+	GameApp(std::string appname);
 	virtual ~GameApp();
 
 	int Execute();
@@ -32,12 +32,17 @@ protected:
 
 	bool OnExit() { m_Running = false; return true; }
 
+	void DrawFramesPerSecond(double deltaTime);
+
 protected:
+	std::string m_AppName;
 	bool	m_Running = false;
 	int		m_maxFPS = 100;
 	int		m_minFPS = 10;
 
 	int		m_MissedFrames = 0;
+
+	bool	m_ShowFPS = true;
 
 	Window	m_Window;
 };

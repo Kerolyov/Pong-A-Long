@@ -3,11 +3,12 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <sstream>
 
 #include "SDLErrorReport.h"
 #include "TimeKeeper.h"
 
-GameApp::GameApp()
+GameApp::GameApp(std::string appname) : m_AppName(appname)
 {
 
 }
@@ -59,7 +60,7 @@ bool GameApp::Init()
 	}
 
 	// Create a window, report error if window not created
-	if (!m_Window.Create("Test Window",
+	if (!m_Window.Create(m_AppName,
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
 		640, 480,
@@ -128,10 +129,13 @@ void GameApp::MainLoop()
 		{
 			AppUpdate(timeElapsed);
 
+			if (m_ShowFPS)
+				DrawFramesPerSecond(timeElapsed);
+
+			Render();
+
 			timeElapsed = 0.0;
 		}
-
-		Render();
 	}
 }
 
@@ -161,6 +165,43 @@ int GameApp::Execute()
 	return 0;
 }
 
+void GameApp::DrawFramesPerSecond(double deltaTime)
+{
+	// Make static so the variables persist even after
+	// the function returns.
+	static int		frameCnt = 0;
+	static double	timeElapsed = 0.0f;
 
+	// Function called implies a new frame, so increment
+	// the frame count.
+	++frameCnt;
+
+	// Also increment how much time has passed since the
+	// last frame.  
+	timeElapsed += deltaTime;
+
+	// Has a second passed?
+	if (timeElapsed >= 1.0f)
+	{
+		// Yes, so compute the frames per second.
+		// FPS = frameCnt / timeElapsed, but since we
+
+		// Add the frames per second string to the main
+		// window caption--that is, we'll display the frames
+		// per second in the window's caption bar.
+
+		std::stringstream strm;
+		strm << m_AppName << "--Frames Per Second = " << static_cast<int>(frameCnt/timeElapsed);
+		strm << ", missed " << m_MissedFrames << " frames";
+
+		// Now set the new caption to the main window.
+		m_Window.SetTitle(strm.str());
+
+		// Reset the counters to prepare for the next time
+		// we compute the frames per second.
+		frameCnt = 0;
+		timeElapsed = 0.0f;
+	}
+}
 
 
