@@ -28,8 +28,6 @@ protected:
 
 	void Render();
 
-	bool OnExit() { m_Running = false; return true; }
-
 protected:
 	bool	m_Running = false;
 
