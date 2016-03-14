@@ -32,8 +32,8 @@ private:
 	double m_ball_XPos = 0.0;
 	double m_ball_YPos = 0.0;
 
-	double m_ball_XVel = 50.;
-	double m_ball_YVel = 50.;
+	double m_ball_XVel = 200.;
+	double m_ball_YVel = 200.;
 
 	Texture m_Ball;
 	Texture m_textInstruct;
