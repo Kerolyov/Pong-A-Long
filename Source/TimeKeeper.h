@@ -3,50 +3,47 @@
 
 #include <sdl.h>
 
-enum TimerState { STOPPED, PAUSED, GOING};
-
 class TimeKeeper
 {
 public:
-	TimeKeeper(void);
+	TimeKeeper(double minFrameTime = 0.01, double maxFrameTime = 0.1);
 	~TimeKeeper(void);
 
-	static bool initialize();
+	bool Initialize();
 
-	static void update(bool frame_done = false);
+	bool Update();
 
-	static double getDeltaTime();
+	double GetDeltaTime();
 
-	static double getCurrentTime();
+	double GetCurrentTime();
 
-	void startInterruption();
-	void endInterruption();
+	double GetFrameRate() { return m_FrameRate; }
+	int GetMissedFrames() { return m_MissedFrames;  }
 
-	double getTimer();
-	void Stop();
-	void Start();
-	void StartNonFrame();
-
-	void unpause();
-	void pause();
-
-	TimerState getState();
+	void SetMinFrameTime(double minFrameTime) { m_minFrameTime = minFrameTime; }
+	void SetMaxFrameTime(double maxFrameTime) { m_maxFrameTime = maxFrameTime; }
 
 private:
-	static Uint64 m_freq;
-	static Uint64 m_init_time;
+	void CalculateFPS();
 
-	static double m_previous_time;
-	static double m_current_time;
+	Uint64 m_freq = 0;
+	Uint64 m_init_time = 0;
 
-	double m_start_time;
-	TimerState m_state;
+	double m_previous_time = 0.0;
+	double m_current_time = 0.0;
+
+	double	m_minFrameTime;
+	double	m_maxFrameTime;
+
+	int		m_MissedFrames = 0;
+
+	double  m_FrameRate = 0;
 };
 
 //-------------------------------------------------------------
 // Get delta time (between current and previous frame)
 
-inline double TimeKeeper::getDeltaTime()
+inline double TimeKeeper::GetDeltaTime()
 {
 	return m_current_time - m_previous_time;
 }

@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <sstream>
+#include <cmath>
 
 #include "SDLErrorReport.h"
 #include "TimeKeeper.h"
@@ -77,7 +78,7 @@ bool GameApp::Init()
 		return false;
 	}
 
-	TimeKeeper::initialize();
+	m_Timer.Initialize();
 
 	return AppInit();
 }
@@ -99,10 +100,6 @@ void GameApp::MainLoop()
 {
 	m_Running = true;
 
-	double maxFrameTime = 1.0 / m_minFPS;
-	double minFrameTime = 1.0 / m_maxFPS;
-
-	double timeElapsed = 0.0;
 
 	// Application will indicate quit by setting m_Running to false
 	// until then we loop thro event handling and rendering each frame
@@ -110,31 +107,19 @@ void GameApp::MainLoop()
 	{
 		HandleEvents();
 
-		// Gets time since last frame
-		TimeKeeper::update();
-		double deltaTime = TimeKeeper::getDeltaTime();
-
-		// Prevents the deltatime going beyond a given value
-		if (deltaTime > maxFrameTime)
+		if ( m_Timer.Update() )
 		{
-			deltaTime = maxFrameTime;
-			m_MissedFrames++;
-		}
+			// Gets time since last frame
+			double deltaTime = m_Timer.GetDeltaTime();
 
-		timeElapsed += deltaTime;
-
-		// Only update once every 1/100 seconds.
-		// timeElapsed set to zero at end of Mainloop
-		if (timeElapsed >= minFrameTime)
-		{
-			AppUpdate(timeElapsed);
+			// Update the derived class
+			AppUpdate(deltaTime);
 
 			if (m_ShowFPS)
-				DrawFramesPerSecond(timeElapsed);
+				DrawFramesPerSecond(deltaTime);
 
+			// Draw our frame
 			Render();
-
-			timeElapsed = 0.0;
 		}
 	}
 }
@@ -167,41 +152,12 @@ int GameApp::Execute()
 
 void GameApp::DrawFramesPerSecond(double deltaTime)
 {
-	// Make static so the variables persist even after
-	// the function returns.
-	static int		frameCnt = 0;
-	static double	timeElapsed = 0.0f;
+	std::stringstream strm;
+	strm << m_AppName << "--Frames Per Second = " << round(m_Timer.GetFrameRate());
+	strm << ", missed " << m_Timer.GetMissedFrames() << " frames";
 
-	// Function called implies a new frame, so increment
-	// the frame count.
-	++frameCnt;
-
-	// Also increment how much time has passed since the
-	// last frame.  
-	timeElapsed += deltaTime;
-
-	// Has a second passed?
-	if (timeElapsed >= 1.0f)
-	{
-		// Yes, so compute the frames per second.
-		// FPS = frameCnt / timeElapsed, but since we
-
-		// Add the frames per second string to the main
-		// window caption--that is, we'll display the frames
-		// per second in the window's caption bar.
-
-		std::stringstream strm;
-		strm << m_AppName << "--Frames Per Second = " << static_cast<int>(frameCnt/timeElapsed);
-		strm << ", missed " << m_MissedFrames << " frames";
-
-		// Now set the new caption to the main window.
-		m_Window.SetTitle(strm.str());
-
-		// Reset the counters to prepare for the next time
-		// we compute the frames per second.
-		frameCnt = 0;
-		timeElapsed = 0.0f;
-	}
+	// Now set the new caption to the main window.
+	m_Window.SetTitle(strm.str());
 }
 
 

@@ -4,6 +4,7 @@
 
 #include "Window.h"
 #include "EventHandler.h"
+#include "TimeKeeper.h"
 
 class GameApp : public EventHandler
 {
@@ -37,14 +38,12 @@ protected:
 protected:
 	std::string m_AppName;
 	bool	m_Running = false;
-	int		m_maxFPS = 100;
-	int		m_minFPS = 10;
-
-	int		m_MissedFrames = 0;
 
 	bool	m_ShowFPS = true;
 
 	Window	m_Window;
+
+	TimeKeeper m_Timer;
 };
 
 #endif // GameApp_h__
