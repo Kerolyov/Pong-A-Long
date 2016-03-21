@@ -55,6 +55,8 @@ void TextureManager::RenderTexture(Renderer& renderer, int ID, const SDL_Rect& d
 		if (pTexture)
 			pTexture->Render(renderer, dest_rect, sprite);
 	}
+	else
+		throw std::exception("Invalid texture ID in Render call");
 }
 
 
