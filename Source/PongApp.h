@@ -8,6 +8,27 @@
 
 #include "GameObject.h"
 
+class Ball : public GameObject
+{
+public:
+	friend class PongApp;
+	Ball() : GameObject() {}
+	virtual ~Ball() {}
+
+	void Reset(Window& window)
+	{
+		m_Velocity = Vec2D();
+
+		m_Position.x = window.GetWidth() / 2;
+		m_Position.y = window.GetHeight() / 2;
+	}
+	
+private:
+	double m_Speed = 200.;
+};
+
+// ------------------------------------------
+
 class PongApp : public GameApp
 {
 public:
@@ -25,14 +46,9 @@ public:
 	bool OnKeyUp(SDL_Scancode scan, SDL_Keycode key);
 
 private:
-	void ResetBall();
+	Ball m_Ball;
 
-	Vec2D m_Ball_Pos;
-	Vec2D m_Ball_Vel;
-
-	double m_Ball_speed = 200.;
-
-	Texture m_Ball;
+	Texture m_BallTexture;
 	Texture m_textInstruct;
 
 	FontTTF m_Font;

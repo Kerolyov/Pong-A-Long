@@ -7,6 +7,7 @@
 
 class Renderer;
 class FontTTF;
+class Sprite;
 
 class Texture
 {
@@ -16,10 +17,10 @@ public:
 
 	void Release();
 
-	void Render(Renderer& renderer, int x, int y);
-	void RenderStretch(Renderer& renderer, SDL_Rect* pDestRect = nullptr);
+	void Render(Renderer& renderer, int x, int y, SDL_Rect*	pClipRect = nullptr);
+	void RenderStretch(Renderer& renderer, SDL_Rect* pDestRect = nullptr, SDL_Rect*	pClipRect = nullptr);
 
-	void SetClipRect(SDL_Rect* rect) { m_pClipRect = rect; }
+	void Render(Renderer& renderer, const SDL_Rect& dest_rect, const Sprite& sprite);
 
 	bool CreateFromFile(Renderer& renderer, std::string filename);
 
@@ -33,7 +34,7 @@ public:
 
 private:
 	SDL_Texture*  m_pTexture = nullptr;
-	SDL_Rect*	m_pClipRect = nullptr;
+
 	int m_Width = 0;
 	int m_Height = 0;
 };

@@ -129,11 +129,14 @@
     <ClCompile Include="..\Source\EventHandler.cpp" />
     <ClCompile Include="..\Source\Font_TTF.cpp" />
     <ClCompile Include="..\Source\GameApp.cpp" />
+    <ClCompile Include="..\Source\GameObject.cpp" />
     <ClCompile Include="..\Source\Main.cpp" />
     <ClCompile Include="..\Source\PongApp.cpp" />
     <ClCompile Include="..\Source\Renderer.cpp" />
     <ClCompile Include="..\Source\SDLErrorReport.cpp" />
+    <ClCompile Include="..\Source\Sprite.cpp" />
     <ClCompile Include="..\Source\Texture.cpp" />
+    <ClCompile Include="..\Source\TextureManager.cpp" />
     <ClCompile Include="..\Source\TimeKeeper.cpp" />
     <ClCompile Include="..\Source\Vec2D.cpp" />
     <ClCompile Include="..\Source\Window.cpp" />
@@ -146,7 +149,9 @@
     <ClInclude Include="..\Source\PongApp.h" />
     <ClInclude Include="..\Source\Renderer.h" />
     <ClInclude Include="..\Source\SDLErrorReport.h" />
+    <ClInclude Include="..\Source\Sprite.h" />
     <ClInclude Include="..\Source\Texture.h" />
+    <ClInclude Include="..\Source\TextureManager.h" />
     <ClInclude Include="..\Source\TimeKeeper.h" />
     <ClInclude Include="..\Source\Vec2D.h" />
     <ClInclude Include="..\Source\Window.h" />

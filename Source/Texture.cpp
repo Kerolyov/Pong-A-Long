@@ -6,7 +6,7 @@
 #include "SDLErrorReport.h"
 #include "Renderer.h"
 #include "Font_TTF.h"
-
+#include "GameObject.h"
 
 Texture::Texture()
 {
@@ -26,17 +26,37 @@ void Texture::Release()
 	m_Height = 0;
 }
 
-void Texture::Render(Renderer& renderer, int x, int y)
+// -----------------------------------------------------------------------------------------
+
+void Texture::Render(Renderer& renderer, int x, int y, SDL_Rect* pClipRect /*= nullptr*/)
 {
-	SDL_Rect image_rect = {x,y, m_Width, m_Height};
-	RenderStretch(renderer, &image_rect);
+	SDL_Rect image_rect;
+
+	if (pClipRect)
+		image_rect = { x, y, pClipRect->w, pClipRect->h };
+	else
+		image_rect = { x, y, m_Width, m_Height };
+	RenderStretch(renderer, &image_rect, pClipRect);
 }
 
-void Texture::RenderStretch(Renderer& renderer, SDL_Rect* pDestRect /*= nullptr*/)
+void Texture::RenderStretch(Renderer& renderer, SDL_Rect* pDestRect /*= nullptr*/, SDL_Rect* pClipRect /*= nullptr*/)
 {
 	if (renderer.GetRenderPtr() && m_pTexture)
-		SDL_RenderCopy(renderer.GetRenderPtr(), m_pTexture, m_pClipRect, pDestRect);
+		SDL_RenderCopyEx(renderer.GetRenderPtr(), m_pTexture, pClipRect, pDestRect, 0.0, nullptr, SDL_FLIP_NONE);
 }
+
+void Texture::Render(Renderer& renderer, const SDL_Rect& dest_rect, const Sprite& sprite)
+{
+	if (renderer.GetRenderPtr() && m_pTexture)
+	{
+		SDL_RenderCopyEx(renderer.GetRenderPtr(), m_pTexture, 
+						&sprite.m_ClipRect, &dest_rect,
+						sprite.m_rotation_angle, &sprite.m_RotationCentre,
+						sprite.m_Flip);
+	}
+}
+
+// -----------------------------------------------------------------------------------------
 
 bool Texture::CreateFromFile(Renderer& renderer, std::string filename)
 {
