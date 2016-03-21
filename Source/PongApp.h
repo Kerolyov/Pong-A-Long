@@ -6,6 +6,8 @@
 #include "Texture.h"
 #include "Font_TTF.h"
 
+#include "GameObject.h"
+
 class PongApp : public GameApp
 {
 public:
@@ -25,15 +27,10 @@ public:
 private:
 	void ResetBall();
 
-	enum BallDirection { BallUp, BallDn, BallLeft , BallRight, BallStop };
+	Vec2D m_Ball_Pos;
+	Vec2D m_Ball_Vel;
 
-	BallDirection m_Ball_dirn = BallStop;
-
-	double m_ball_XPos = 0.0;
-	double m_ball_YPos = 0.0;
-
-	double m_ball_XVel = 200.;
-	double m_ball_YVel = 200.;
+	double m_Ball_speed = 200.;
 
 	Texture m_Ball;
 	Texture m_textInstruct;

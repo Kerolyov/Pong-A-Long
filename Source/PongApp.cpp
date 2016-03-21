@@ -37,26 +37,12 @@ void PongApp::AppRender(Renderer& renderer)
 {
 	int y = 0;
 	m_textInstruct.Render(renderer, 0, 0);
-	m_Ball.Render(renderer, static_cast<int>(m_ball_XPos), static_cast<int>(m_ball_YPos));
+	m_Ball.Render(renderer, m_Ball_Pos.intX(), m_Ball_Pos.intY());
 }
 
 void PongApp::AppUpdate(double dt)
 {
-	switch (m_Ball_dirn)
-	{
-	case BallLeft:
-		m_ball_XPos -= m_ball_XVel*dt;
-		break;
-	case BallRight:
-		m_ball_XPos += m_ball_XVel*dt;
-		break;
-	case BallUp:
-		m_ball_YPos -= m_ball_YVel*dt;
-		break;
-	case BallDn:
-		m_ball_YPos += m_ball_YVel*dt;
-		break;
-	}
+	m_Ball_Pos += m_Ball_Vel*dt;
 }
 
 bool PongApp::OnKeyDown(SDL_Scancode scan, SDL_Keycode key)
@@ -64,16 +50,16 @@ bool PongApp::OnKeyDown(SDL_Scancode scan, SDL_Keycode key)
 	switch (key)
 	{
 	case SDLK_LEFT:
-		m_Ball_dirn = BallLeft;
+		m_Ball_Vel.x = -m_Ball_speed;
 		break;
 	case SDLK_RIGHT:
-		m_Ball_dirn = BallRight;
+		m_Ball_Vel.x = m_Ball_speed;
 		break;
 	case SDLK_UP:
-		m_Ball_dirn = BallUp;
+		m_Ball_Vel.y = -m_Ball_speed;
 		break;
 	case SDLK_DOWN:
-		m_Ball_dirn = BallDn;
+		m_Ball_Vel.y = m_Ball_speed;
 		break;
 	}
 
@@ -85,20 +71,20 @@ bool PongApp::OnKeyUp(SDL_Scancode scan, SDL_Keycode key)
 	switch (key)
 	{
 	case SDLK_LEFT:
-		if (m_Ball_dirn == BallLeft)
-			m_Ball_dirn = BallStop;
+		if (m_Ball_Vel.x < 0.0)
+			m_Ball_Vel.x = 0.0;
 		break;
 	case SDLK_RIGHT:
-		if (m_Ball_dirn == BallRight)
-			m_Ball_dirn = BallStop;
+		if (m_Ball_Vel.x > 0.0)
+			m_Ball_Vel.x = 0.0;
 		break;
 	case SDLK_UP:
-		if (m_Ball_dirn == BallUp)
-			m_Ball_dirn = BallStop;
+		if (m_Ball_Vel.y < 0.0)
+			m_Ball_Vel.y = 0.0;
 		break;
 	case SDLK_DOWN:
-		if (m_Ball_dirn == BallDn)
-			m_Ball_dirn = BallStop;
+		if (m_Ball_Vel.y > 0.0)
+			m_Ball_Vel.y = 0.0;
 		break;
 	case SDLK_SPACE:
 		ResetBall();
@@ -110,10 +96,10 @@ bool PongApp::OnKeyUp(SDL_Scancode scan, SDL_Keycode key)
 
 void PongApp::ResetBall()
 {
-	BallDirection m_Ball_dirn = BallStop;
+	m_Ball_Vel = Vec2D();
 
-	m_ball_XPos = m_Window.GetWidth() / 2 - m_Ball.GetWidth() / 2;
-	m_ball_YPos = m_Window.GetHeight() / 2 - m_Ball.GetHeight() / 2;
+	m_Ball_Pos.x = m_Window.GetWidth() / 2 - m_Ball.GetWidth() / 2;
+	m_Ball_Pos.y = m_Window.GetHeight() / 2 - m_Ball.GetHeight() / 2;
 }
 
 
