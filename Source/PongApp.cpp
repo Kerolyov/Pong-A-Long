@@ -9,33 +9,32 @@ bool PongApp::AppInit()
 {
 	Renderer& renderer = m_Window.GetRenderer();
 
+	// Ball Creation
 	if (!m_Ball.CreateFromFile(renderer, "..\\gfx\\ball.png"))
 		return false;
 
 	ResetBall();
 
-	if (m_Font.LoadFont("C:\\Windows\\Fonts\\ARIAL.TTF", 16, SDL_Color{ 0xFF, 0xFF, 0xFF, 0xFF }))
-	{
-		bool success = m_textInstruct.CreateFromText(renderer, "Arrows keys to move ball, space to reset", m_Font);
+	// Create instruction text texture
+	FontTTF arialFont;
 
-		return success;
-	}
-	else
-		return false;
+	if (arialFont.LoadFont("C:\\Windows\\Fonts\\ARIAL.TTF", 16, SDL_Color{ 0xFF, 0xFF, 0xFF, 0xFF }))
+		return m_textInstruct.CreateFromText(renderer, "Arrows keys to move ball, space to reset", arialFont);
+
+	return false;
 }
+
+
 
 
 void PongApp::AppCleanup()
 {
-	m_Font.Release();
-
 	m_Ball.Release();
 	m_textInstruct.Release();
 }
 
 void PongApp::AppRender(Renderer& renderer)
 {
-	int y = 0;
 	m_textInstruct.Render(renderer, 0, 0);
 	m_Ball.Render(renderer, static_cast<int>(m_Ball_PosX), static_cast<int>(m_Ball_PosY));
 }

@@ -34,9 +34,8 @@ private:
 	double m_Ball_Speed = 200.;
 
 	Texture m_Ball;
-	Texture m_textInstruct;
 
-	FontTTF m_Font;
+	Texture m_textInstruct;
 };
 
 #endif // PongApp_h__
