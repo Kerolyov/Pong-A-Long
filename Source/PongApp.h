@@ -25,15 +25,13 @@ public:
 private:
 	void ResetBall();
 
-	enum BallDirection { BallUp, BallDn, BallLeft , BallRight, BallStop };
+	double m_Ball_PosX = 0.0;
+	double m_Ball_PosY = 0.0;
 
-	BallDirection m_Ball_dirn = BallStop;
+	double m_Ball_VelX = 200.;
+	double m_Ball_VelY = 200.;
 
-	double m_ball_XPos = 0.0;
-	double m_ball_YPos = 0.0;
-
-	double m_ball_XVel = 200.;
-	double m_ball_YVel = 200.;
+	double m_Ball_Speed = 200.;
 
 	Texture m_Ball;
 	Texture m_textInstruct;
