@@ -7,18 +7,20 @@
 #include "Vec2D.h"
 #include "sprite.h"
 
-
 class GameObject
 {
 public:
 	GameObject() {}
 	virtual ~GameObject() {}
 
+	void InitialiseSprite(int id, SDL_Rect size_rect, Sprite::AnchorPt anchorpt = Sprite::CENTRE );
+
 	void SetClipRect(SDL_Rect rect) { m_Sprite.SetClipRect(rect); }
 
 	SDL_Rect GetSpriteRect() const;
-
 	const Sprite& GetSprite() const { return m_Sprite; }
+	Sprite& GetSprite() { return m_Sprite; }
+	
 	const Vec2D& GetVel() const { return m_Velocity; }
 	const Vec2D& GetPos() const { return m_Position; }
 

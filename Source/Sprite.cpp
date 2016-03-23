@@ -1,30 +1,30 @@
 #include "Sprite.h"
 
-int Sprite::GetXOffset() const
-{
-	if (m_AnchorPt == CENTRE || m_AnchorPt == TOPCENTRE || m_AnchorPt == LOWCENTRE)
-		return - m_ClipRect.w / 2;
-
-	if (m_AnchorPt == RIGHT || m_AnchorPt == TOPRIGHT || m_AnchorPt == LOWRIGHT)
-		return  - m_ClipRect.w;
-
-	return 0;
-}
-
-int Sprite::GetYOffset() const
-{
-	if (m_AnchorPt == LEFT || m_AnchorPt == CENTRE || m_AnchorPt == RIGHT)
-		return - m_ClipRect.h / 2;
-
-	if (m_AnchorPt == LOWLEFT || m_AnchorPt == LOWCENTRE || m_AnchorPt == LOWRIGHT)
-		return - m_ClipRect.h;
-
-	return 0;
-}
 
 SDL_Rect Sprite::GetDestRect() const
 {
-	return{ GetXOffset(), GetYOffset(), m_ClipRect.w, m_ClipRect.h };
+	return{ m_AnchorPt.x, m_AnchorPt.y, m_ClipRect.w, m_ClipRect.h };
 }
 
+void Sprite::SetClipRect(SDL_Rect rect)
+{
+	m_ClipRect = rect;
+}
+
+void Sprite::SetAnchorPt(AnchorPt anchor)
+{
+	if (anchor == CENTRE || anchor == TOPCENTRE || anchor == LOWCENTRE)
+		m_AnchorPt.x = -m_ClipRect.w / 2;
+	else if (anchor == RIGHT || anchor == TOPRIGHT || anchor == LOWRIGHT)
+		m_AnchorPt.x = -m_ClipRect.w;
+	else
+		m_AnchorPt.x = 0;
+
+	if (anchor == LEFT || anchor == CENTRE || anchor == RIGHT)
+		m_AnchorPt.y = -m_ClipRect.h / 2;
+	else if (anchor == LOWLEFT || anchor == LOWCENTRE || anchor == LOWRIGHT)
+		m_AnchorPt.y = -m_ClipRect.h;
+	else
+		m_AnchorPt.y = 0;
+}
 

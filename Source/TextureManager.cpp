@@ -5,8 +5,9 @@
 #include <sdl_assert.h>
 
 #include "Renderer.h"
-#include "Sprite.h"
 #include "Texture.h"
+#include "GameObject.h"
+#include "Font_TTF.h"
 
 TextureManager::~TextureManager()
 {
@@ -15,48 +16,72 @@ TextureManager::~TextureManager()
 
 void TextureManager::Release()
 {
-	std::for_each(m_Textures.begin(), m_Textures.end(), [](std::shared_ptr<Texture>& pTexture) { if (pTexture) pTexture->Release(); });
+	std::for_each(m_Textures.begin(), m_Textures.end(), [](std::unique_ptr<Texture>& pTexture) { if (pTexture) pTexture->Release(); });
 
 	m_Textures.clear();
+
+	m_max_id = 0;
+}
+
+std::unique_ptr<Texture>& TextureManager::GetTexture(int id)
+{
+	SDL_assert(id < m_max_id);
+	SDL_assert(m_Textures[id]);
+
+	return m_Textures[id];
+}
+
+int TextureManager::AddTextureFromText(Renderer& renderer, std::string text, FontTTF& font)
+{
+	SDL_assert(renderer.GetRenderPtr());
+	std::unique_ptr<Texture> pTexture(new Texture);
+
+	SDL_assert(pTexture);
+	pTexture->CreateFromText(renderer, text, font);
+
+	return AddTexture(std::move(pTexture));
 }
 
 int TextureManager::AddTextureFromFile(Renderer& renderer, std::string filename)
 {
-	if (renderer.GetRenderPtr())
-	{
-		std::shared_ptr<Texture> pTexture(new Texture);
+	SDL_assert(renderer.GetRenderPtr());
+	std::unique_ptr<Texture> pTexture(new Texture);
 
-		if (pTexture)
-		{
-			pTexture->CreateFromFile(renderer, filename);
-
-			return AddTexture(pTexture);
-		}
-		else
-			return 0;
-	}
-	return 0;
-}
-
-
-int TextureManager::AddTexture(std::shared_ptr<Texture> pTexture)
-{
-	m_Textures.push_back(pTexture);
-
-	return ++m_max_id;
-}
-
-void TextureManager::RenderTexture(Renderer& renderer, int ID, const SDL_Rect& dest_rect, const Sprite& sprite)
-{
-	if (ID < m_max_id)
-	{
-		std::shared_ptr<Texture> pTexture = m_Textures[ID];
-
-		if (pTexture)
-			pTexture->Render(renderer, dest_rect, sprite);
-	}
+	SDL_assert(pTexture);
+	if (pTexture->CreateFromFile(renderer, filename))
+		return AddTexture(std::move(pTexture));
 	else
-		throw std::exception("Invalid texture ID in Render call");
+		return -1;
 }
 
+
+int TextureManager::AddTexture(std::unique_ptr<Texture> pTexture)
+{
+	m_Textures.push_back( std::move(pTexture) );
+
+	return m_max_id++;
+}
+
+
+void TextureManager::RenderTexture(Renderer& renderer, const SDL_Rect& dest_rect, const Sprite& sprite)
+{
+	GetTexture( sprite.GetTextureID() )->Render(renderer, dest_rect, sprite);
+}
+
+void TextureManager::RenderTexture(Renderer& renderer, const GameObject& gameObject)
+{
+	RenderTexture(renderer, gameObject.GetSpriteRect(), gameObject.GetSprite());
+}
+
+void TextureManager::RenderTexture(Renderer& renderer, int id, int x, int y)
+{
+	GetTexture(id)->Render(renderer, x, y);
+}
+
+SDL_Rect TextureManager::GetTextureSize(int id)
+{
+	std::unique_ptr<Texture>& pTexture = GetTexture(id);
+
+	return SDL_Rect{ 0, 0, pTexture->GetWidth(), pTexture->GetHeight() };
+}
 

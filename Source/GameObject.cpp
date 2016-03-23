@@ -1,5 +1,14 @@
 #include "GameObject.h"
 
+void GameObject::InitialiseSprite(int id, SDL_Rect size_rect, Sprite::AnchorPt anchorpt /*= Sprite::CENTRE */)
+{
+	m_Sprite.SetTextureID(id);
+
+	m_Sprite.SetClipRect(size_rect);
+
+	m_Sprite.SetAnchorPt(anchorpt);
+}
+
 SDL_Rect GameObject::GetSpriteRect() const
 {
 	SDL_Rect rect = m_Sprite.GetDestRect();

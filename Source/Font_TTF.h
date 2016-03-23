@@ -15,14 +15,15 @@ public:
 	void Release();
 
 	void ChangeSize(int ptsize) {m_ptsize = ptsize;}
+	void ChangeColour(SDL_Color textColour) { m_textColour = textColour; }
 
 	TTF_Font* GetFontPtr() { return m_pFont;  }
-	SDL_Color& GetColor() { return m_textColor;  }
+	SDL_Color& GetColor() { return m_textColour;  }
 	
 private:
 	TTF_Font* m_pFont = nullptr;
 	int m_ptsize = 0;
-	SDL_Color m_textColor = { 0x00, 0x00, 0x00, 0x00 };
+	SDL_Color m_textColour = { 0x00, 0x00, 0x00, 0x00 };
 };
 
 #endif // Font_TTF_h__

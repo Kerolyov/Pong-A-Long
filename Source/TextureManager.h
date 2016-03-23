@@ -10,6 +10,8 @@
 class Texture;
 class Sprite;
 class Renderer;
+class GameObject;
+class FontTTF;
 
 class TextureManager
 {
@@ -19,15 +21,22 @@ public:
 
 	void Release();
 
-	int AddTextureFromFile(Renderer& renderer, std::string filename);
-	int AddTexture(std::shared_ptr<Texture> pTexture);
+	std::unique_ptr<Texture>& GetTexture(int id);
 
-	void RenderTexture(Renderer& renderer, int ID, const SDL_Rect& dest_rect, const Sprite& sprite);
+	int AddTextureFromText(Renderer& renderer, std::string text, FontTTF& font);
+	int AddTextureFromFile(Renderer& renderer, std::string filename);
+	int AddTexture(std::unique_ptr<Texture> pTexture);
+
+	void RenderTexture(Renderer& renderer, int id, int x, int y);
+	void RenderTexture(Renderer& renderer, const SDL_Rect& dest_rect, const Sprite& sprite);
+	void RenderTexture(Renderer& renderer, const GameObject& gameObject);
+
+	SDL_Rect GetTextureSize(int id);
 
 protected:
 	
 private:
-	std::vector<std::shared_ptr<Texture>> m_Textures;
+	std::vector<std::unique_ptr<Texture>> m_Textures;
 	int m_max_id = 0;
 };
 

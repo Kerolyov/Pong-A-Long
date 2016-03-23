@@ -10,36 +10,34 @@ bool PongApp::AppInit()
 	Renderer& renderer = m_Window.GetRenderer();
 
 	// Ball Creation
-	if (!m_BallTexture.CreateFromFile(renderer, "..\\gfx\\ball.png"))
+	int ball_id = m_TextureManager.AddTextureFromFile(renderer, "..\\gfx\\ball.png");
+	if (ball_id == -1) 
 		return false;
+	m_Ball.InitialiseSprite( ball_id, m_TextureManager.GetTextureSize(ball_id) );
 
-	m_Ball.SetClipRect({ 0,0, m_BallTexture.GetWidth(), m_BallTexture.GetHeight() });
-	m_Ball.Reset(m_Window);
+ 	m_Ball.Reset(m_Window);
 
 	// Create instruction text texture
 	FontTTF arialFont;
-	bool success = false;
+	if ( arialFont.LoadFont( "C:\\Windows\\Fonts\\ARIAL.TTF", 16, SDL_Color{ 0xFF, 0xFF, 0xFF, 0xFF } ) )
+	{
+		m_Textid = m_TextureManager.AddTextureFromText(renderer, "Arrows keys to move ball, space to reset", arialFont);
+		return true;
+	}
 
-	if (arialFont.LoadFont("C:\\Windows\\Fonts\\ARIAL.TTF", 16, SDL_Color{ 0xFF, 0xFF, 0xFF, 0xFF }))
-		success = m_textInstruct.CreateFromText(renderer, "Arrows keys to move ball, space to reset", arialFont);
-
-	arialFont.Release();
-
-	return success;
+	return false;
 }
 
 
 void PongApp::AppCleanup()
 {
-	m_BallTexture.Release();
-	m_textInstruct.Release();
+	m_TextureManager.Release();
 }
 
 void PongApp::AppRender(Renderer& renderer)
 {
-	m_textInstruct.Render(renderer, 0, 0);
-
-	m_BallTexture.Render(renderer, m_Ball.GetSpriteRect(), m_Ball.GetSprite());
+	m_TextureManager.RenderTexture(renderer, m_Textid, 0, 0);
+	m_TextureManager.RenderTexture(renderer, m_Ball);
 }
 
 void PongApp::AppUpdate(double dt)

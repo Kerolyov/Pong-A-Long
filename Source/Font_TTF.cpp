@@ -30,7 +30,7 @@ bool FontTTF::LoadFont(const char* file, int ptsize, SDL_Color textColor)
 	}
 
 	m_ptsize = ptsize;
-	m_textColor = textColor;
+	m_textColour = textColor;
 	return true;
 }
 

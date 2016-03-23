@@ -8,6 +8,8 @@
 
 #include "GameObject.h"
 
+#include "TextureManager.h"
+
 class Ball : public GameObject
 {
 public:
@@ -47,9 +49,9 @@ public:
 
 private:
 	Ball m_Ball;
+	int m_Textid = -1;
 
-	Texture m_BallTexture;
-	Texture m_textInstruct;
+	TextureManager m_TextureManager;
 };
 
 #endif // PongApp_h__

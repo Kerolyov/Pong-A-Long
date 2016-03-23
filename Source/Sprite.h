@@ -3,6 +3,7 @@
 #pragma once
 
 #include <sdl.h>
+#include <memory>
 
 class Sprite
 {
@@ -13,16 +14,17 @@ public:
 	Sprite() {}
 	virtual ~Sprite() {}
 
-	int GetXOffset() const;
-	int GetYOffset() const;
 	SDL_Rect GetDestRect() const;
 
-	void SetClipRect(SDL_Rect rect) { m_ClipRect = rect; }
-
 	int GetTextureID() const { return m_TextureID; }
+
+
 	void SetTextureID(int id) { m_TextureID = id; }
 
-	void SetAnchorPt(AnchorPt anchor) { m_AnchorPt = anchor; }
+	void SetClipRect(SDL_Rect rect);
+
+	void SetAnchorPt(AnchorPt anchor);
+	void SetAnchorPt(SDL_Point anchorpt) { m_AnchorPt = anchorpt; }
 
 	void SetRotation(double angle_rad) { m_rotation_angle = angle_rad; }
 
@@ -31,12 +33,12 @@ public:
 protected:
 	int m_TextureID = -1;
 
-	AnchorPt m_AnchorPt = CENTRE;
+	SDL_Point m_AnchorPt = { 0, 0 };
 
 	SDL_Rect m_ClipRect = { 0, 0, 0, 0 };
 
 	double m_rotation_angle = 0.0;
-	SDL_Point m_RotationCentre = {0,0};
+	std::unique_ptr<SDL_Point> m_pRotationCentre = nullptr;
 
 	SDL_RendererFlip m_Flip = SDL_FLIP_NONE;
 };

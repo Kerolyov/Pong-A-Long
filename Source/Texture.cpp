@@ -41,19 +41,19 @@ void Texture::Render(Renderer& renderer, int x, int y, SDL_Rect* pClipRect /*= n
 
 void Texture::RenderStretch(Renderer& renderer, SDL_Rect* pDestRect /*= nullptr*/, SDL_Rect* pClipRect /*= nullptr*/)
 {
-	if (renderer.GetRenderPtr() && m_pTexture)
-		SDL_RenderCopyEx(renderer.GetRenderPtr(), m_pTexture, pClipRect, pDestRect, 0.0, nullptr, SDL_FLIP_NONE);
+	SDL_assert(renderer.GetRenderPtr() && m_pTexture);
+	
+	SDL_RenderCopyEx(renderer.GetRenderPtr(), m_pTexture, pClipRect, pDestRect, 0.0, nullptr, SDL_FLIP_NONE);
 }
 
 void Texture::Render(Renderer& renderer, const SDL_Rect& dest_rect, const Sprite& sprite)
 {
-	if (renderer.GetRenderPtr() && m_pTexture)
-	{
-		SDL_RenderCopyEx(renderer.GetRenderPtr(), m_pTexture, 
-						&sprite.m_ClipRect, &dest_rect,
-						sprite.m_rotation_angle, &sprite.m_RotationCentre,
-						sprite.m_Flip);
-	}
+	SDL_assert(renderer.GetRenderPtr() && m_pTexture);
+
+	SDL_RenderCopyEx(renderer.GetRenderPtr(), m_pTexture, 
+					&sprite.m_ClipRect, &dest_rect,
+					sprite.m_rotation_angle, sprite.m_pRotationCentre.get(),
+					sprite.m_Flip);
 }
 
 // -----------------------------------------------------------------------------------------
