@@ -25,7 +25,7 @@ void TextureManager::Release()
 
 std::unique_ptr<Texture>& TextureManager::GetTexture(int id)
 {
-	SDL_assert(id < m_max_id);
+	SDL_assert(id >=0 && id < m_max_id);
 	SDL_assert(m_Textures[id]);
 
 	return m_Textures[id];

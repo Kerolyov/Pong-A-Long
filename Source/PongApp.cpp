@@ -11,21 +11,16 @@ bool PongApp::AppInit()
 
 	// Ball Creation
 	int ball_id = m_TextureManager.AddTextureFromFile(renderer, "..\\gfx\\ball.png");
-	if (ball_id == -1) 
-		return false;
-	m_Ball.InitialiseSprite( ball_id, m_TextureManager.GetTextureSize(ball_id) );
-
+	if (ball_id != -1)
+		m_Ball.InitialiseSprite( ball_id, m_TextureManager.GetTextureSize(ball_id) );
  	m_Ball.Reset(m_Window);
 
 	// Create instruction text texture
 	FontTTF arialFont;
 	if ( arialFont.LoadFont( "C:\\Windows\\Fonts\\ARIAL.TTF", 16, SDL_Color{ 0xFF, 0xFF, 0xFF, 0xFF } ) )
-	{
 		m_Textid = m_TextureManager.AddTextureFromText(renderer, "Arrows keys to move ball, space to reset", arialFont);
-		return true;
-	}
 
-	return false;
+	return 	(ball_id != -1 && m_Textid != -1);
 }
 
 
