@@ -6,7 +6,7 @@
 #include "Texture.h"
 #include "Font_TTF.h"
 
-#include "GameObject.h"
+#include "Vec2D.h"
 
 class PongApp : public GameApp
 {

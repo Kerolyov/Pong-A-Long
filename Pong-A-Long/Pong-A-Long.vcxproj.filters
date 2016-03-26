@@ -77,9 +77,6 @@
     <ClInclude Include="..\Source\TimeKeeper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Vec2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
