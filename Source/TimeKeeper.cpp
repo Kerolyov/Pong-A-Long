@@ -50,11 +50,6 @@ void TimeKeeper::CalculateFPS()
 	if (timeElapsed >= 1.0f)
 	{
 		// Yes, so compute the frames per second.
-		// FPS = frameCnt / timeElapsed, but since we
-
-		// Add the frames per second string to the main
-		// window caption--that is, we'll display the frames
-		// per second in the window's caption bar.
 		m_FrameRate = frameCnt / timeElapsed;
 
 		// Reset the counters to prepare for the next time

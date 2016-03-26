@@ -116,7 +116,7 @@ void GameApp::MainLoop()
 			AppUpdate(deltaTime);
 
 			if (m_ShowFPS)
-				DrawFramesPerSecond(deltaTime);
+				DrawFramesPerSecond();
 
 			// Draw our frame
 			Render();
@@ -150,7 +150,7 @@ int GameApp::Execute()
 	return 0;
 }
 
-void GameApp::DrawFramesPerSecond(double deltaTime)
+void GameApp::DrawFramesPerSecond()
 {
 	std::stringstream strm;
 	strm << m_AppName << "--Frames Per Second = " << round(m_Timer.GetFrameRate());

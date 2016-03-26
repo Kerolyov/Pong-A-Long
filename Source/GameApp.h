@@ -33,7 +33,7 @@ protected:
 
 	bool OnExit() { m_Running = false; return true; }
 
-	void DrawFramesPerSecond(double deltaTime);
+	void DrawFramesPerSecond();
 
 protected:
 	std::string m_AppName;
