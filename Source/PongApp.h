@@ -34,8 +34,6 @@ private:
 
 	Texture m_Ball;
 	Texture m_textInstruct;
-
-	FontTTF m_Font;
 };
 
 #endif // PongApp_h__

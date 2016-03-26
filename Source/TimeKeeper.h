@@ -13,7 +13,7 @@ public:
 
 	bool Update();
 
-	double GetDeltaTime();
+	double GetDeltaTime() { return m_current_time - m_previous_time; }
 
 	double GetCurrentTime();
 
@@ -39,14 +39,5 @@ private:
 
 	double  m_FrameRate = 0;
 };
-
-//-------------------------------------------------------------
-// Get delta time (between current and previous frame)
-
-inline double TimeKeeper::GetDeltaTime()
-{
-	return m_current_time - m_previous_time;
-}
-
 
 #endif // _TIMEKEEPER_H
