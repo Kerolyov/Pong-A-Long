@@ -16,7 +16,7 @@ public:
 	void Release();
 
 	bool Create(std::string title, int x, int y, int w, int h, Uint32 flags);
-	bool CreateRenderer();
+	bool CreateRenderer(Uint32 iFlags = SDL_RENDERER_ACCELERATED);
 	void ClearWindow();
 	void Present();
 

@@ -17,7 +17,7 @@ public:
 
 	void Present();
 
-	bool Create(SDL_Window* pWindow, int index = -1, Uint32 flags = SDL_RENDERER_ACCELERATED);
+	bool Create(SDL_Window* pWindow, Uint32 flags = SDL_RENDERER_ACCELERATED, int index = -1);
 
 	SDL_Renderer* GetRenderPtr() { return m_pRenderer; }
 

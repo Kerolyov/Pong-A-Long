@@ -34,7 +34,7 @@ void Renderer::Present()
 	}
 }
 
-bool Renderer::Create(SDL_Window* pWindow, int index /*= -1*/, Uint32 flags /*= SDL_RENDERER_ACCELERATED*/)
+bool Renderer::Create(SDL_Window* pWindow, Uint32 flags /*= SDL_RENDERER_ACCELERATED*/, int index /*= -1*/)
 {
 	if (!pWindow)
 		return false;

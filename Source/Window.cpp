@@ -1,7 +1,6 @@
 #include "Window.h"
 
 
-
 Window::Window()
 {
 
@@ -30,6 +29,9 @@ bool Window::Create(std::string title, int x, int y, int w, int h, Uint32 flags)
 	if (m_pWindow == nullptr)
 		return false;
 
+	if (flags | SDL_WINDOW_FULLSCREEN_DESKTOP)
+		SDL_GetWindowSize(m_pWindow, &w, &h);
+
 	m_Width = w;
 	m_Height = h;
 
@@ -45,9 +47,9 @@ bool Window::Create(std::string title, int x, int y, int w, int h, Uint32 flags)
 	return true;
 }
 
-bool Window::CreateRenderer()
+bool Window::CreateRenderer(Uint32 iFlags /*= SDL_RENDERER_ACCELERATED*/)
 {
-	return m_Renderer.Create(m_pWindow);
+	return m_Renderer.Create(m_pWindow, iFlags);
 }
 
 void Window::ClearWindow()
