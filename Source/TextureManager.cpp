@@ -16,8 +16,7 @@ TextureManager::~TextureManager()
 
 void TextureManager::Release()
 {
-	std::for_each(m_Textures.begin(), m_Textures.end(), [](std::unique_ptr<Texture>& pTexture) { if (pTexture) pTexture->Release(); });
-
+//	std::for_each(m_Textures.begin(), m_Textures.end(), [](std::unique_ptr<Texture>& pTexture) { if (pTexture) pTexture->Release(); });
 	m_Textures.clear();
 
 	m_max_id = 0;
@@ -25,30 +24,38 @@ void TextureManager::Release()
 
 std::unique_ptr<Texture>& TextureManager::GetTexture(int id)
 {
+	static std::unique_ptr<Texture> null_texture(new Texture);
+	SDL_assert(null_texture);
+
+	SDL_assert(m_max_id == m_Textures.size());
 	SDL_assert(id >=0 && id < m_max_id);
 	SDL_assert(m_Textures[id]);
 
-	return m_Textures[id];
+	if (id >= 0 && id < m_max_id && m_Textures[id])
+		return m_Textures[id];
+	else
+		return null_texture;
 }
 
 int TextureManager::AddTextureFromText(Renderer& renderer, std::string text, FontTTF& font)
 {
-	SDL_assert(renderer.GetRenderPtr());
 	std::unique_ptr<Texture> pTexture(new Texture);
 
+	SDL_assert(renderer.GetRenderPtr());
 	SDL_assert(pTexture);
-	pTexture->CreateFromText(renderer, text, font);
-
-	return AddTexture(std::move(pTexture));
+	if (pTexture && renderer.GetRenderPtr() && pTexture->CreateFromText(renderer, text, font))
+		return AddTexture(std::move(pTexture));
+	else
+		return -1;
 }
 
 int TextureManager::AddTextureFromFile(Renderer& renderer, std::string filename)
 {
-	SDL_assert(renderer.GetRenderPtr());
 	std::unique_ptr<Texture> pTexture(new Texture);
 
+	SDL_assert(renderer.GetRenderPtr());
 	SDL_assert(pTexture);
-	if (pTexture->CreateFromFile(renderer, filename))
+	if (pTexture && renderer.GetRenderPtr() && pTexture->CreateFromFile(renderer, filename))
 		return AddTexture(std::move(pTexture));
 	else
 		return -1;
@@ -58,6 +65,7 @@ int TextureManager::AddTextureFromFile(Renderer& renderer, std::string filename)
 int TextureManager::AddTexture(std::unique_ptr<Texture> pTexture)
 {
 	m_Textures.push_back( std::move(pTexture) );
+	SDL_assert(m_Textures.size() == m_max_id + 1);
 
 	return m_max_id++;
 }

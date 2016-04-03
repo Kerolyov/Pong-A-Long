@@ -17,6 +17,8 @@ public:
 
 	void Release();
 
+	bool IsNull() { return (m_pTexture == nullptr); }
+
 	void Render(Renderer& renderer, int x, int y, SDL_Rect*	pClipRect = nullptr);
 	void RenderStretch(Renderer& renderer, SDL_Rect* pDestRect = nullptr, SDL_Rect*	pClipRect = nullptr);
 
