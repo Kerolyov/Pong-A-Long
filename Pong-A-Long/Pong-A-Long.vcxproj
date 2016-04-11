@@ -126,6 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Source\Ball.cpp" />
     <ClCompile Include="..\Source\EventHandler.cpp" />
     <ClCompile Include="..\Source\Font_TTF.cpp" />
     <ClCompile Include="..\Source\GameApp.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="..\Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Source\Ball.h" />
     <ClInclude Include="..\Source\EventHandler.h" />
     <ClInclude Include="..\Source\Font_TTF.h" />
     <ClInclude Include="..\Source\GameApp.h" />

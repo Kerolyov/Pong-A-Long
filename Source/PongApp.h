@@ -9,27 +9,8 @@
 #include "GameObject.h"
 
 #include "TextureManager.h"
+#include "Ball.h"
 
-class Ball : public GameObject
-{
-public:
-	friend class PongApp;
-	Ball() : GameObject() {}
-	virtual ~Ball() {}
-
-	void Reset(Window& window)
-	{
-		m_Velocity = Vec2D();
-
-		m_Position.x = window.GetWidth() / 2;
-		m_Position.y = window.GetHeight() / 2;
-	}
-	
-private:
-	double m_Speed = 200.;
-};
-
-// ------------------------------------------
 
 class PongApp : public GameApp
 {
