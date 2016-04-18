@@ -19,6 +19,9 @@ bool PongApp::AppInit()
 		SDL_Rect ball_rect = m_TextureManager.GetTextureSize(ball_id);
 		m_Ball.InitialiseSprite(ball_id, ball_rect);
 		m_Ball.Reset(m_Window);
+
+		m_Ball.AddConstraint( std::unique_ptr<Constraint>(new ClampMin(Constraint::AXIS_Y, ball_rect.h / 2)) );
+		m_Ball.AddConstraint( std::unique_ptr<Constraint>(new ClampMax(Constraint::AXIS_Y, m_Window.GetHeight() - ball_rect.h / 2)) );
 	}
 
 	// Paddle creation
@@ -26,12 +29,12 @@ bool PongApp::AppInit()
 	if (paddle_id != -1)
 	{
 		m_LeftPaddle.InitialiseSprite(paddle_id, m_TextureManager.GetTextureSize(paddle_id), Sprite::LEFT);
-		m_LeftPaddle.SetPosition(Vec2D(paddle_x, paddle_y));
+		m_LeftPaddle.SetPosition(Vec2D(paddle_x, paddle_y)); 
 
 		m_RightPaddle.InitialiseSprite(paddle_id, m_TextureManager.GetTextureSize(paddle_id), Sprite::RIGHT);
 		m_RightPaddle.SetPosition(Vec2D(m_Window.GetWidth() - paddle_x, paddle_y));
 	}
-
+	
 	// Create instruction text texture
 	FontTTF arialFont;
 	if ( arialFont.LoadFont( "C:\\Windows\\Fonts\\ARIAL.TTF", 16, SDL_Color{ 0xFF, 0xFF, 0xFF, 0xFF } ) )
