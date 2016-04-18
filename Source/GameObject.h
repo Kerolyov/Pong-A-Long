@@ -16,9 +16,12 @@ public:
 	void InitialiseSprite(int id, SDL_Rect size_rect, Sprite::AnchorPt anchorpt = Sprite::CENTRE );
 
 	void SetClipRect(SDL_Rect rect) { m_Sprite.SetClipRect(rect); }
+	void SetPosition(Vec2D pos) { m_Position = pos; }
+	void SetVelocity(Vec2D vel) { m_Velocity = vel; }
 
 	SDL_Rect GetSpriteRect() const;
 	const Sprite& GetSprite() const { return m_Sprite; }
+
 	Sprite& GetSprite() { return m_Sprite; }
 	
 	const Vec2D& GetVel() const { return m_Velocity; }

@@ -18,6 +18,8 @@ public:
 
 	int GetTextureID() const { return m_TextureID; }
 
+	int GetHeight() { return m_ClipRect.h; }
+	int GetWidth() { return m_ClipRect.w; }
 
 	void SetTextureID(int id) { m_TextureID = id; }
 

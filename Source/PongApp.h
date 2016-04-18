@@ -30,6 +30,9 @@ public:
 
 private:
 	Ball m_Ball;
+	GameObject m_LeftPaddle;
+	GameObject m_RightPaddle;
+
 	int m_Textid = -1;
 
 	TextureManager m_TextureManager;
