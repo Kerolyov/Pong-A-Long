@@ -22,4 +22,10 @@ SDL_Rect GameObject::GetSpriteRect() const
 void GameObject::Update(double dt)
 {
 	m_Position += m_Velocity*dt;
+
+	for (std::unique_ptr<Constraint>& pConstraint : m_Constraints)
+	{
+		if (pConstraint) 
+			pConstraint->ApplyConstraint(m_Position, m_Velocity);
+	}
 }

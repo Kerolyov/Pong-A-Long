@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Ball.h" />
+    <ClInclude Include="..\Source\Constraint.h" />
     <ClInclude Include="..\Source\EventHandler.h" />
     <ClInclude Include="..\Source\Font_TTF.h" />
     <ClInclude Include="..\Source\GameApp.h" />
