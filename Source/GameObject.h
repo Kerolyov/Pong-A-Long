@@ -7,6 +7,9 @@
 #include "Vec2D.h"
 #include "sprite.h"
 
+enum AXIS {XAXIS, YAXIS};
+enum DIRN {LESSTHAN, GRTERTHAN};
+
 class GameObject
 {
 public:
@@ -26,6 +29,8 @@ public:
 	
 	const Vec2D& GetVel() const { return m_Velocity; }
 	const Vec2D& GetPos() const { return m_Position; }
+
+	void CheckForPlaneCollision(AXIS axis, DIRN dirn, int planePos );
 
 	void Update(double dt);
 
