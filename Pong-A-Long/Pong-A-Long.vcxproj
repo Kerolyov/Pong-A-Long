@@ -132,6 +132,7 @@
     <ClCompile Include="..\Source\GameApp.cpp" />
     <ClCompile Include="..\Source\GameObject.cpp" />
     <ClCompile Include="..\Source\Main.cpp" />
+    <ClCompile Include="..\Source\ObjectManager.cpp" />
     <ClCompile Include="..\Source\PongApp.cpp" />
     <ClCompile Include="..\Source\Renderer.cpp" />
     <ClCompile Include="..\Source\SDLErrorReport.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="..\Source\Font_TTF.h" />
     <ClInclude Include="..\Source\GameApp.h" />
     <ClInclude Include="..\Source\GameObject.h" />
+    <ClInclude Include="..\Source\ObjectManager.h" />
     <ClInclude Include="..\Source\PongApp.h" />
     <ClInclude Include="..\Source\Renderer.h" />
     <ClInclude Include="..\Source\SDLErrorReport.h" />

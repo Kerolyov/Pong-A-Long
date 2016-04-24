@@ -16,8 +16,6 @@ TextureManager::~TextureManager()
 
 void TextureManager::Release()
 {
-	std::for_each(m_Textures.begin(), m_Textures.end(), [](std::unique_ptr<Texture>& pTexture) { if (pTexture) pTexture->Release(); });
-
 	m_Textures.clear();
 
 	m_max_id = 0;

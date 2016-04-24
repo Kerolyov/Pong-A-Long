@@ -1,5 +1,7 @@
 #include "PongApp.h"
 
+#include "Ball.h"
+
 PongApp::PongApp(std::string appname) : GameApp(appname)
 {
 
@@ -13,12 +15,17 @@ bool PongApp::AppInit()
 	int paddle_x = 20;
 
 	// Ball Creation
-	int ball_id = m_TextureManager.AddTextureFromFile(renderer, "..\\gfx\\ball.png");
-	if (ball_id != -1)
+	int ball_Sprite_id = m_TextureManager.AddTextureFromFile(renderer, "..\\gfx\\ball.png");
+	if (ball_Sprite_id != -1)
 	{
-		SDL_Rect ball_rect = m_TextureManager.GetTextureSize(ball_id);
-		m_Ball.InitialiseSprite(ball_id, ball_rect);
+		SDL_Rect ball_rect = m_TextureManager.GetTextureSize(ball_Sprite_id);
+		m_Ball.InitialiseSprite(ball_Sprite_id, ball_rect);
 		m_Ball.Reset(m_Window);
+
+		Ball* pBall = new Ball();
+		pBall->InitialiseSprite(ball_Sprite_id, ball_rect);
+		pBall->Reset(m_Window);
+		m_ball_id = m_ObjectManager.AddObject( std::unique_ptr<GameObject>(pBall) );			
 	}
 
 	// Paddle creation
@@ -37,7 +44,7 @@ bool PongApp::AppInit()
 	if ( arialFont.LoadFont( "C:\\Windows\\Fonts\\ARIAL.TTF", 16, SDL_Color{ 0xFF, 0xFF, 0xFF, 0xFF } ) )
 		m_Textid = m_TextureManager.AddTextureFromText(renderer, "Press space to reset ball with random direction", arialFont);
 
-	return 	(ball_id != -1 && paddle_id != -1 && m_Textid != -1);
+	return 	(ball_Sprite_id != -1 && paddle_id != -1 && m_Textid != -1);
 }
 
 
@@ -53,10 +60,14 @@ void PongApp::AppRender(Renderer& renderer)
 	m_TextureManager.RenderTexture(renderer, m_Ball);
 	m_TextureManager.RenderTexture(renderer, m_LeftPaddle);
 	m_TextureManager.RenderTexture(renderer, m_RightPaddle);
+
+	m_ObjectManager.RenderObjects(m_TextureManager, renderer);
 }
 
 void PongApp::AppUpdate(double dt)
 {
+	m_ObjectManager.UpdateObjects(dt);
+
 	m_Ball.Update(dt);
 	m_LeftPaddle.Update(dt);
 	m_RightPaddle.Update(dt);
@@ -111,6 +122,8 @@ bool PongApp::OnKeyUp(SDL_Scancode scan, SDL_Keycode key)
 // 		break;
 	case SDLK_SPACE:
 		m_Ball.Reset(m_Window);
+		Ball* pBall = dynamic_cast<Ball*>(m_ObjectManager.GetObject(m_ball_id).get());
+		if (pBall) pBall->Reset(m_Window);
 		break;
 	}
 

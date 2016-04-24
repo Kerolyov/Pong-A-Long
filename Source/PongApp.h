@@ -10,6 +10,9 @@
 
 #include "TextureManager.h"
 #include "Ball.h"
+#include "ObjectManager.h"
+
+
 
 
 class PongApp : public GameApp
@@ -34,8 +37,10 @@ private:
 	GameObject m_RightPaddle;
 
 	int m_Textid = -1;
+	int m_ball_id = -1;
 
 	TextureManager m_TextureManager;
+	GameObjectManager m_ObjectManager;
 };
 
 #endif // PongApp_h__
